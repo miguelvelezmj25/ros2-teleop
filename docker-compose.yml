@@ -1,0 +1,21 @@
+version: '2'
+services:
+  simulator:
+    image: teleop
+    container_name: simulator
+    environment: 
+        - TURTLEBOT3_MODEL=burger
+        - GAZEBO_MODEL_PATH=/root/turtlebot3_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models
+        - DISPLAY=:1.0
+        - ROS_DOMAIN_ID=30
+    command: bash -c "/startup-vnc.sh & (export DISPLAY=":1.0" && sleep 15 && ros2 launch turtlebot3_gazebo empty_world.launch.py)"
+
+  teleop:
+    image: teleop
+    container_name: autoteleop
+    environment: 
+        - TURTLEBOT3_MODEL=burger
+        - GAZEBO_MODEL_PATH=/root/turtlebot3_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models
+        - DISPLAY=:1.0
+        - ROS_DOMAIN_ID=30
+    command: bash -c "/startup-vnc.sh & (sleep 30 && ros2 launch ./root/launch/autoteleop_launch.py)"
